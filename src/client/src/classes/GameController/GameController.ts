@@ -48,7 +48,11 @@ export default class GameController {
     
     }
 
-    public start() {
+    public start(gameSpecs: { ballSize: number, ballSpeed: number, pongHeight: number}) {
+        this.ballSize = gameSpecs.ballSize;
+        this.ballSpeed = gameSpecs.ballSpeed;
+        this.pongHeight = gameSpecs.pongHeight;
+
         this.ctx = this.board.ctx;
         this.ball = new Ball({
             gameBoardContext: this.ctx,

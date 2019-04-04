@@ -1,0 +1,73 @@
+.grid {
+    display: grid;
+    grid-template-columns: [flush-start] minmax(4rem, 1fr) [container-start] repeat( 12, [col-start] minmax(min-content, 10rem) [col-end] ) [container-end] minmax(4rem, 1fr) [flush-end];
+
+}
+
+.page {
+    width: 100vw;
+    min-height: 100vh;
+    padding-top: 5rem;
+}
+
+.game-screen {
+    &__side-bar{
+        grid-column: container-start / col-end 3;
+        display: grid;
+        grid-gap: 2rem;
+    }
+
+    &__game-view{
+        grid-column: col-start 5 / container-end;
+    }
+}
+
+.card{
+
+    border: 1px solid #dbdbdb;
+    border-radius: .7rem;
+    box-shadow: 0 1rem 2rem rgba(black, .05);
+    
+    &__title,
+    &__body,
+    &__footer{
+        padding: 2rem;
+    }
+
+    &__title{
+        color: black;
+        font-weight: 600;
+        border-bottom: 1px solid #dbdbdb;
+    }
+
+    &__body{
+
+    }
+
+    &__footer{
+        border-top: 1px solid #dbdbdb;
+    }
+}
+
+label{
+    display: block;
+}
+
+input{
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.game-mode-btn {
+    background: none;
+    //padding: 1rem 2rem;
+    padding: .5rem;
+    border: none;
+    margin-bottom: 1rem;
+    outline: none;
+    cursor: pointer;
+    
+    &.selected{
+        color: red;
+    }
+}
