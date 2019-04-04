@@ -18,8 +18,9 @@ export default class Pong extends GameComponent {
 
         this.x = this.x;
         this.y = mouseCoords.y - (this.height / 2)
+        //this.y = mouseCoords.y;
 
-        if(this.y / 2 > boardDimensions.height)
+        if(this.y + this.height >= boardDimensions.height)
             this.ctx.fillRect(this.x, boardDimensions.height - this.height, this.width, this.height);
         else if(this.y < 0)
             this.ctx.fillRect(this.x, 0, this.width, this.height);

@@ -10,8 +10,8 @@ export default class GameBoard {
         this.board = board.current!;
         this.ctx = this.board.getContext('2d')!;
 
-        this.board.width = 600;
-        this.board.height = 600;
+        this.board.width = 800;
+        this.board.height = 800;
     
     }
 

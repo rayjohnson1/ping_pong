@@ -13,11 +13,15 @@ export default class GameController {
     ballSize: number;
     ballYDeltaMultiplier: number;
 
+    pongHeight: number;
+
     ball: Ball;
     pongs: Pong[];
 
     docBody: HTMLBodyElement;
     mouseCoords: MouseCoords;
+
+    currentFrame: number;
 
     constructor(board: GameBoard){
         
@@ -31,6 +35,10 @@ export default class GameController {
         this.ballSpeed = 5;
         this.ballSize = 10;
         this.ballYDeltaMultiplier = 5;
+
+        this.pongHeight = 120;
+
+        this.currentFrame = 0;
 
         this.docBody = document.getElementsByTagName("body")[0];
         this.docBody.addEventListener('mousemove', (e: MouseEvent) => {
@@ -54,7 +62,7 @@ export default class GameController {
         const pong1 = new Pong({
             gameBoardContext: this.ctx,
             width: 5, 
-            height: 60,
+            height: this.pongHeight,
             color: 'black',
             startingX: 0, 
             startingY: 60
@@ -63,7 +71,7 @@ export default class GameController {
         const pong2 = new Pong({
             gameBoardContext: this.ctx,
             width: 5, 
-            height: 60,
+            height: this.pongHeight,
             color: 'black',
             startingX: this.board.board.width - 5, 
             startingY: 60
@@ -72,10 +80,15 @@ export default class GameController {
         this.pongs.push(pong1, pong2);
 
         this.interval = setInterval(() => { this.update() }, 20);
+
+
     }
 
     private update(){
         this.board.clear();
+        this.currentFrame++;
+
+        this.nthFrame(200, this.currentFrame);
 
         this.ball.update({
             direction: this.ball.direction,
@@ -123,6 +136,15 @@ export default class GameController {
                 ballDirectionY: Math.random() > .5 ? (this.ballYDeltaMultiplier * 1) : (this.ballYDeltaMultiplier * -1)
             });
 
+    }
+
+    private nthFrame(frameInterval: number, currentFrame: number){
+        if(currentFrame % frameInterval === 0){
+
+            this.ballSpeed += 1;
+            this.ballYDeltaMultiplier += 1;
+
+        }
     }
 
 }
