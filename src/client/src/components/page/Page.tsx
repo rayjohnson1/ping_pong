@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import GameController, { GameComponent, GameBoard } from '../../classes/GameController';
+import GameController from '../../classes/GameController/GameController';
+import GameBoard from '../../classes/GameBoard';
 
 export default class Page extends Component<{}> {
 
