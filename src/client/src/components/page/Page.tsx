@@ -16,8 +16,12 @@ interface IState {
         beginner: IGameMode,
         intermediate: IGameMode,
         expert: IGameMode
-    }
-    selectedGameMode: SelectedGameMode
+    };
+    selectedGameMode: SelectedGameMode;
+    currentGameStats: {
+        pings: number,
+        ballVelocity: number
+    };
 }
 
 export default class Page extends Component<{}, IState> {
@@ -48,7 +52,11 @@ export default class Page extends Component<{}, IState> {
                     pongHeight: 80
                 }
             },
-            selectedGameMode: 'beginner'
+            selectedGameMode: 'beginner',
+            currentGameStats: {
+                pings: 0,
+                ballVelocity: 0
+            }
         }
         
     }
@@ -56,19 +64,20 @@ export default class Page extends Component<{}, IState> {
     componentDidMount(){
 
         const gameBoard: GameBoard = new GameBoard(this._gameBoardRef as React.RefObject<HTMLCanvasElement>);
-
         this._gameController = new GameController(gameBoard);
-        //this._gameController.start();
+        
     }
 
     handleBeginnerClick = (e: React.MouseEvent) => {
         e.preventDefault();
         this.setState({ selectedGameMode: 'beginner' });
     }
+
     handleIntermediateClick = (e: React.MouseEvent) => {
         e.preventDefault();
         this.setState({ selectedGameMode: 'intermediate' });
     }
+
     handleExpertClick = (e: React.MouseEvent) => {
         e.preventDefault();
         this.setState({ selectedGameMode: 'expert' });
@@ -76,7 +85,17 @@ export default class Page extends Component<{}, IState> {
 
     handleBeginGameClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        this._gameController.start(this.state.gameModeSettings[this.state.selectedGameMode]);
+        this.setState({
+            currentGameStats: {
+                pings: 0,
+                ballVelocity: 0
+            }
+        })
+        this._gameController.start(this.state.gameModeSettings[this.state.selectedGameMode], this.countPings);
+    }
+
+    countPings = (data: {pings: number, maxBallVelocity: number}) => {
+        this.setState({ currentGameStats: { pings: data.pings, ballVelocity: data.maxBallVelocity } });
     }
 
     render() {
@@ -105,7 +124,7 @@ export default class Page extends Component<{}, IState> {
                                 <button onClick={this.handleBeginGameClick}>Start Game</button>
                             </div>
                         </div>
-                        <div className={`card`}>
+                        {/* <div className={`card`}>
                             <div className={`card__title`}>
                                 Customize Your Game!
                             </div>
@@ -128,25 +147,16 @@ export default class Page extends Component<{}, IState> {
                             <div className={`card__footer`}>
                                 <button>Start Game</button>
                             </div>
-                        </div>
+                        </div> */}
                         <div className={`card`}>
                             <div className={`card__title`}>
                                 Game Stats
                             </div>
                             <div className={`card__body`}>
                                 <div className={`customize-grid`}>
-                                    <div>
-                                        <label>Ball Size</label>
-                                        <input type={`number`} min={`10`} max={`40`} />
-                                    </div>
-                                    <div>
-                                        <label>Ball Speed</label>
-                                        <input type={`number`} min={`10`} max={`40`} />
-                                    </div>
-                                    <div>
-                                        <label>Pong Height</label>
-                                        <input type={`number`} min={`10`} max={`40`} />
-                                    </div>
+                                    <input type={`text`} placeholder={`username`} />
+                                    <p>Pings: {this.state.currentGameStats.pings}</p>
+                                    <p>Max Ball Velocity: {this.state.currentGameStats.ballVelocity}</p>
                                 </div>
                             </div>
                         </div>
